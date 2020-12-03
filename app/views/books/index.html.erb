@@ -1,3 +1,7 @@
+<p>
+    <%= flash[:success_destroy] %>
+</p>
+
 <h1>Books</h1>
 
 <table>
@@ -21,17 +25,17 @@
         </td>
     </tr>
 
-
     <% end %>
-
 
 </table>
 
-
-
+<h4>New book</h4>
+<p>
+    <%= flash[:create_succes] %>
+    <%= flash[:create_error] %>
+</p>
 
 <%= form_with model:@book, local:true do |f| %>
-    <h4>New book</h4>
     <p>Title</p>
     <%= f.text_field :title %>
     <p>Body</p>

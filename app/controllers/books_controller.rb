@@ -14,24 +14,7 @@ class BooksController < ApplicationController
       flash[:create_succes] = "successfully created"
       redirect_to book_path(@book.id)
     else
-      # count = 0
-      # if @book[:title] == ''
-      #   create_error_title = "<li>Title can't be blank</li>"
-      #   count = count + 1
-      # end
-      # if @book[:body] == ''
-      #   create_error_body = "<li>Body can't be blank</li>"
-      #   count = count + 1
-      # end
-      # flash[:create_error] = "
-      # <div class=\"error_explanation\">
-      # <h2>#{count} errors prohibited this book from being saved:</h2>
-      # <ul>
-      #   #{create_error_title}
-      #   #{create_error_body}
-      # </ul>
-      # </div>
-      # "
+
       error
       redirect_to books_path
     end

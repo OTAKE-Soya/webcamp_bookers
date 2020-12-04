@@ -14,13 +14,25 @@ class BooksController < ApplicationController
       flash[:create_succes] = "successfully created"
       redirect_to book_path(@book.id)
     else
-      flash[:create_error] = "create error"
-      if @book[:title] == ''
-        flash[:create_error_title] = "error title can't be blank"
-      end
-      if @book[:body] == ''
-        flash[:create_error_body] = "error body can't be blank"
-      end
+      # count = 0
+      # if @book[:title] == ''
+      #   create_error_title = "<li>Title can't be blank</li>"
+      #   count = count + 1
+      # end
+      # if @book[:body] == ''
+      #   create_error_body = "<li>Body can't be blank</li>"
+      #   count = count + 1
+      # end
+      # flash[:create_error] = "
+      # <div class=\"error_explanation\">
+      # <h2>#{count} errors prohibited this book from being saved:</h2>
+      # <ul>
+      #   #{create_error_title}
+      #   #{create_error_body}
+      # </ul>
+      # </div>
+      # "
+      error
       redirect_to books_path
     end
   end
@@ -34,14 +46,14 @@ class BooksController < ApplicationController
   end
 
   def update
-    book = Book.find(params[:id])
-    book.update(book_params)
-    if book.update(book_params)
+    @book = Book.find(params[:id])
+    @book.update(book_params)
+    if @book.update(book_params)
       flash[:edit_success] = "successfully edited"
-      redirect_to book_path(book.id)
+      redirect_to book_path(@book.id)
     else
-      flash[:edit_error] = "edit error"
-      redirect_to edit_book_path(book.id)
+      error
+      redirect_to edit_book_path(@book.id)
     end
   end
 
@@ -52,6 +64,27 @@ class BooksController < ApplicationController
       flash[:success_destroy] = "successfully destroyed"
     end
     redirect_to books_path
+  end
+
+  def error
+    count = 0
+      if @book[:title] == ''
+        create_error_title = "<li>Title can't be blank</li>"
+        count = count + 1
+      end
+      if @book[:body] == ''
+        create_error_body = "<li>Body can't be blank</li>"
+        count = count + 1
+      end
+      flash[:error] = "
+      <div class=\"error_explanation\">
+      <h2>#{count} errors prohibited this book from being saved:</h2>
+      <ul>
+        #{create_error_title}
+        #{create_error_body}
+      </ul>
+      </div>
+      "
   end
 
   private

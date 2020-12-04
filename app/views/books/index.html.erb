@@ -30,11 +30,11 @@
 </table>
 
 <h4>New book</h4>
-<p><%= flash[:create_error] %></p>
-<P><%= flash[:create_error_title] %></P>
-<p><%= flash[:create_error_body] %></p>
+
 
 <%= form_with model:@book, local:true do |f| %>
+    <%= sanitize flash[:error] %>
+
     <p>Title</p>
     <%= f.text_field :title %>
     <p>Body</p>

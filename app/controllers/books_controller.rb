@@ -4,21 +4,25 @@ class BooksController < ApplicationController
 
   def index
     @books = Book.all
-  end
-
-  def new
     @book = Book.new
   end
 
   def create
-    @book = Book.new(create_book_params)
+    @book = Book.new(book_params)
     @book.save
     if @book.save
-      flash[:create_succes] = "Successfully created"
+      flash[:create_succes] = "successfully created"
+      redirect_to book_path(@book.id)
     else
-      flash[:create_error] = "Create error"
+      flash[:create_error] = "create error"
+      if @book[:title] == ''
+        flash[:create_error_title] = "error title can't be blank"
+      end
+      if @book[:body] == ''
+        flash[:create_error_body] = "error body can't be blank"
+      end
+      redirect_to books_path
     end
-    redirect_to books_path
   end
 
   def show
@@ -31,9 +35,9 @@ class BooksController < ApplicationController
 
   def update
     book = Book.find(params[:id])
-    book.update(update_book_params)
-    if book.update(update_book_params)
-      flash[:edit_success] = "Successfully edited"
+    book.update(book_params)
+    if book.update(book_params)
+      flash[:edit_success] = "successfully edited"
       redirect_to book_path(book.id)
     else
       flash[:edit_error] = "edit error"
@@ -45,21 +49,14 @@ class BooksController < ApplicationController
     book = Book.find(params[:id])
     book.destroy
     if book.destroy
-      flash[:success_destroy] = "Successfully destroyed"
+      flash[:success_destroy] = "successfully destroyed"
     end
     redirect_to books_path
   end
 
   private
-  def create_book_params
-    params.permit(:title, :body)
-  end
-
-  def update_book_params
-
+  def book_params
     params.require(:book).permit(:title, :body)
   end
-
-
 
 end
